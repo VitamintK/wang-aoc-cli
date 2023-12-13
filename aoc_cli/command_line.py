@@ -6,6 +6,8 @@ import requests
 import subprocess
 
 BASE_URL = 'https://adventofcode.com'
+session = requests.Session()
+session.headers.update({'User-Agent': 'kevinwang wang-aoc-cli https://github.com/VitamintK/wang-aoc-cli'})
 
 # Get and set state in the config file ####
 def get_config_path():
@@ -55,7 +57,7 @@ def get_openai_key_from_config():
 def get_real_input(year, day, token):
     url = f'{BASE_URL}/{year}/day/{day}/input'
     headers = {"Cookie": f"session={token}"}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    response = session.get(url, headers=headers, allow_redirects=False)
     response.raise_for_status()
     if 300 <= response.status_code < 400:
         # expired tokens 302 redirect to the overall leaderboard
@@ -77,15 +79,15 @@ def parse_html_and_get_article(html):
     # TODO: copy aocd and make this nicer with beautifulsoup
     return html.split('article')[1]
 
-def execute(cmd, inp):
-    popen = subprocess.Popen(cmd, stdin=inp, stdout=subprocess.PIPE, universal_newlines=True)
-    for stdout_line in iter(popen.stdout.readline, ""):
-        yield stdout_line 
-    popen.stdout.close()
-    # return_code = popen.wait()
-    # if return_code:
-    #     raise subprocess.CalledProcessError(return_code, cmd)
 def run_python_with_input(py_path, input_path):
+    def execute(cmd, inp):
+        popen = subprocess.Popen(cmd, stdin=inp, stdout=subprocess.PIPE, universal_newlines=True)
+        for stdout_line in iter(popen.stdout.readline, ""):
+            yield stdout_line 
+        popen.stdout.close()
+        # return_code = popen.wait()
+        # if return_code:
+        #     raise subprocess.CalledProcessError(return_code, cmd)
     with open(input_path, 'r') as input_file:
         for l in execute(['python', '-u', py_path], input_file):
             print(l, end="")
@@ -153,7 +155,7 @@ def submit(args):
     token = get_token_from_config()
     fields = {"level": level, "answer": answer}
     headers = {"Cookie": f"session={token}"}
-    response = requests.post(url, headers=headers, data=fields, allow_redirects=False)
+    response = session.post(url, headers=headers, data=fields, allow_redirects=False)
     response.raise_for_status()
     if response.status_code != 200:
         print(f"got {response.status_code} status code")
@@ -168,30 +170,6 @@ def run(args):
     real_in_filepath = f'day{day}_real.in'
     output = run_python_with_input(py_path, real_in_filepath)
     print(output, end='')
-    
-    
-def submit(args):
-    # used aocd/models.py:Puzzle._submit for inspiration
-    # It has a lot of useful bells and whistles like tracking previous submissions which is really nice. also automatically fixing year,day if day,year is given.
-    # so TODO: copy those nice features
-    year, day = get_year_and_day_with_fallbacks(args)
-    level = args.level
-    answer = args.answer
-    if level is None:
-        level = 1
-    if answer is None:
-        answer = input('enter answer: ')
-    answer = answer.strip()
-    url = f'{BASE_URL}/{year}/day/{day}/answer'
-    token = get_token_from_config()
-    fields = {"level": level, "answer": answer}
-    headers = {"Cookie": f"session={token}"}
-    response = requests.post(url, headers=headers, data=fields, allow_redirects=False)
-    response.raise_for_status()
-    if response.status_code != 200:
-        print(f"got {response.status_code} status code")
-        raise ValueError(f"HTTP {response.status_code} at {url}")
-    print(parse_html_and_get_article(response.text))
 
 def set_session_id(args):
     # TODO: add help message and error message telling you to do https://github.com/wimglenn/advent-of-code-wim/issues/1
