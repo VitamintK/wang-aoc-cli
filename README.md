@@ -17,3 +17,13 @@ aoc day 12
 aoc make
 aoc get-real
 ```
+
+This tells the tool that the day is 12,  
+creates the day12.py and day12_real.in and day12_example.in files (with day12.py copied from boilerplate.py),  
+and downloads the input and saves it to day12_example.in
+
+Then,
+```
+aoc run
+```
+runs `python day12.py < day12_real.in`
