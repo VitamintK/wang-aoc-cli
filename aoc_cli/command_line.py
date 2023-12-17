@@ -165,8 +165,36 @@ def make(args):
             with open(filepath, 'w') as f:
                 pass
 
-def start_daemon():
-    pass
+def start_daemon(args):
+    """This is actually not a daemon for now. Maybe it's better this way anyways. It just blocks synchronously until midnight."""
+    year, day = get_year_and_day_with_fallbacks(args)
+
+    import time
+    import datetime
+    from threading import Thread
+
+    EST = datetime.timezone(datetime.timedelta(hours=-5))
+    def wait_until_midnight():
+        now = datetime.datetime.now(EST)
+        tomorrow = now + datetime.timedelta(days=1)
+        midnight = datetime.datetime(year=tomorrow.year, month=tomorrow.month, day=tomorrow.day, hour=0, minute=0, second=3, tzinfo=EST)
+        wait_seconds = (midnight - now).total_seconds()
+        while wait_seconds > 0:
+            wait_seconds = (midnight - datetime.datetime.now(EST)).total_seconds()
+            hours, remainder = divmod(wait_seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            print(f"waiting {int(hours)}h{int(minutes)}m{int(seconds)}s until midnight", end='\r')
+            time.sleep(1)
+        wait_seconds = max(0, wait_seconds)
+        time.sleep(wait_seconds)
+
+    def run_tasks():
+        get_real_and_description_and_parse_example(args)
+
+    wait_until_midnight()
+    print('time to go! getting everything now...')
+    run_tasks()
+
 
 def test(args):
     year, day = get_year_and_day_with_fallbacks(args)
@@ -278,8 +306,9 @@ def get_and_save_description(args):
         f.write(articles[0])
 
 def get_real_and_description_and_parse_example(args):
-    # get_and_save_description(args)
-    # get_and_save_input(args)
+    # TODO: make this just parse the example. Then callers should just do the saving themselves first.
+    get_and_save_description(args)
+    get_and_save_input(args)
     year, day = get_year_and_day_with_fallbacks(args)
     with open(f'day{day}_description.html', 'r') as f:
         html = f.read()
@@ -344,6 +373,8 @@ def main():
     parser_parse_example.set_defaults(func = get_real_and_description_and_parse_example)
 
     parser_daemon = subparsers.add_parser('daemon', help="Start a daemon that checks if the day's puzzle is released and gets the inputs when it is.")
+    parser_daemon.add_argument('year', nargs='?', default=None)
+    parser_daemon.add_argument('day', nargs='?', default=None)
     parser_daemon.set_defaults(func = start_daemon)
 
     # run example only
