@@ -10,13 +10,23 @@ Due to this, it is bespoke for the way I do AOC, e.g. using `.in` files to store
 
 [wimglenn/advent-of-code-data](https://github.com/wimglenn/advent-of-code-wim) seems to be one of the most popular and polished tools, and I used it for inspiration and its approach and some code for authing to AOC ( https://github.com/wimglenn/advent-of-code-wim/issues/1 )
 
-Installation:
+### Installation
 
 - Clone the repo
 - `cd` into the repo
 - install with pip: `pip install .` or `pip install -e .` (the [latter](https://setuptools.pypa.io/en/latest/userguide/development_mode.html) lets you edit the tool without re-installing after every modification.)
 
-Usage:
+### Setup
+Set your session cookie (see [instructions here](https://github.com/wimglenn/advent-of-code-wim/issues/1) to get it). Session cookie needed to get your real input and to submit answers.
+```aoc auth 1243abce4a567bc4e65a7bcea12345cbea4567cbe56a7b5c679ea5578cea```
+Set your openai API key. This is needed to parse the example input and answer from the problem description. Using gpt 4 turbo, it costs about $0.10 per parse. (is this like using a flamethrower to kill a mosquito? maybe, but... the flamethrower is so easy to use!)
+```
+> aoc openai
+enter OpenAI key: e4a567bc4e65a7bcea16fgdfhjg2345cbea4567cbe
+```
+
+
+### Usage
 
 ```
 aoc day 12

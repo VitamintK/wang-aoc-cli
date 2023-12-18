@@ -339,6 +339,7 @@ def main():
 
     parser_auto = subparsers.add_parser('auto', help='runs `make` and `daemon` for the current year and day.')
     # TODO: implement this
+    # TODO: auto is a bad name for this command. setup? go? get-ready? 
     parser_auto.set_defaults(func = None)
 
     parser_day = subparsers.add_parser('day', help='Set the current day, so that any subsequent commands know what day to operate on.')
