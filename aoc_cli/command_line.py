@@ -337,6 +337,10 @@ def main():
     parser_cd.add_argument('year', nargs='?', default=None)
     parser_cd.set_defaults(func = cd)
 
+    parser_auto = subparsers.add_parser('auto', help='runs `make` and `daemon` for the current year and day.')
+    # TODO: implement this
+    parser_auto.set_defaults(func = None)
+
     parser_day = subparsers.add_parser('day', help='Set the current day, so that any subsequent commands know what day to operate on.')
     parser_day.add_argument('day', help='day help')
     parser_day.set_defaults(func = set_day)
@@ -372,7 +376,7 @@ def main():
     parser_parse_example.add_argument('day', nargs='?', default=None)
     parser_parse_example.set_defaults(func = get_real_and_description_and_parse_example)
 
-    parser_daemon = subparsers.add_parser('daemon', help="Start a daemon that checks if the day's puzzle is released and gets the inputs when it is.")
+    parser_daemon = subparsers.add_parser('daemon', help="Start a daemon that waits until the day's puzzle is released and gets and parses the inputs when it is.")
     parser_daemon.add_argument('year', nargs='?', default=None)
     parser_daemon.add_argument('day', nargs='?', default=None)
     parser_daemon.set_defaults(func = start_daemon)
