@@ -18,7 +18,9 @@ Due to this, it is bespoke for the way I do AOC, e.g. using `.in` files to store
 
 ### Setup
 Set your session cookie (see [instructions here](https://github.com/wimglenn/advent-of-code-wim/issues/1) to get it). Session cookie needed to get your real input and to submit answers.
-```aoc auth 1243abce4a567bc4e65a7bcea12345cbea4567cbe56a7b5c679ea5578cea```
+```
+aoc auth 1243abce4a567bc4e65a7bcea12345cbea4567cbe56a7b5c679ea5578cea
+```
 Set your openai API key. This is needed to parse the example input and answer from the problem description. Using gpt 4 turbo, it costs about $0.10 per parse. (is this like using a flamethrower to kill a mosquito? maybe, but... the flamethrower is so easy to use!)
 ```
 > aoc openai
