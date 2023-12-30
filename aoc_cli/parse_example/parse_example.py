@@ -25,10 +25,12 @@ def go(openai_key, puzzle_description: str, real_input: str, truncate_real = Tru
         inp = open(Path(__file__).parent / f'{example}.in').read()
         real = open(Path(__file__).parent / f'{example}.real').read()
         if truncate_real:
+            # truncate to the first 1250 characters,
+            # and the first N lines.
             first_m = real[:1250]
             if len(real) >= 1250:
                 first_m += ' ...'
-            real = '\n'.join(real.split('\n')[:N])
+            real = '\n'.join(first_m.split('\n')[:N])
         answer = open(Path(__file__).parent / f'{example}.answer').read()
         out = open(Path(__file__).parent / f'{example}.out').read()
         ins.append(f'Puzzle Description:\n{inp}\n\nReal Input:\n{real}')

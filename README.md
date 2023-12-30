@@ -6,7 +6,7 @@ See: https://github.com/Bogdanp/awesome-advent-of-code#tools-and-utilities
 
 However, this one is unique in that I am making it.
 
-Due to this, it is bespoke for the way I do AOC, e.g. using `.in` files to store inputs.
+Due to this, it is bespoke for the way I do AOC, e.g. I use `.in` files to store inputs, and I write my programs to get their input from stdin and write their output to stdout.
 
 [wimglenn/advent-of-code-data](https://github.com/wimglenn/advent-of-code-wim) seems to be one of the most popular and polished tools, and I used it for inspiration and its approach and some code for authing to AOC ( https://github.com/wimglenn/advent-of-code-wim/issues/1 )
 
@@ -19,7 +19,7 @@ Due to this, it is bespoke for the way I do AOC, e.g. using `.in` files to store
 ### Setup
 Set your session cookie (see [instructions here](https://github.com/wimglenn/advent-of-code-wim/issues/1) to get it). Session cookie needed to get your real input and to submit answers.
 ```
-aoc auth 1243abce4a567bc4e65a7bcea12345cbea4567cbe56a7b5c679ea5578cea
+> aoc auth 1243abce4a567bc4e65a7bcea12345cbea4567cbe56a7b5c679ea5578cea
 ```
 Set your openai API key. This is needed to parse the example input and answer from the problem description. Using gpt 4 turbo, it costs about $0.10 per parse. (is this like using a flamethrower to kill a mosquito? maybe, but... the flamethrower is so easy to use!)
 ```
@@ -31,9 +31,9 @@ enter OpenAI key: e4a567bc4e65a7bcea16fgdfhjg2345cbea4567cbe
 ### Usage
 
 ```
-aoc day 12
-aoc make
-aoc daemon
+> aoc day 12
+> aoc make
+> aoc daemon
 ```
 
 This tells the tool that the day is 12,  
@@ -42,7 +42,7 @@ and waits until midnight, at which point it (1) downloads the input and saves it
 
 Then,
 ```
-aoc run
+> aoc run
 ```
 - runs `python day12.py < day12_example.in`
 - checks the answer (assumed to be the last line of stdout) by comparing it to `day12_example.answer`
