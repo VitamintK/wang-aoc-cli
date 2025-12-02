@@ -26,7 +26,12 @@ Set your openai API key. This is needed to parse the example input and answer fr
 > aoc openai
 enter OpenAI key: e4a567bc4e65a7bcea16fgdfhjg2345cbea4567cbe
 ```
+Set the year:
+```
+> aoc year 2025
+```
 
+Make a `boilerplate.py` file. [Here's mine](https://github.com/VitamintK/AlgorithmProblems/blob/master/miscellaneous/advent-of-code/2023/boilerplate.py).
 
 ### Usage
 
